@@ -1,4 +1,4 @@
-from graphene import List, Union
+from graphene import List, Union, Interface
 from graphene.utils.str_converters import to_snake_case
 
 import graphene
@@ -16,7 +16,7 @@ def register_entity(typename, Type):
 def get_entity_cls():
     class _Entity(Union):
         class Meta:
-            types = tuple(custom_entities.values())
+            types = tuple(class_ for class_ in custom_entities.values() if not issubclass(class_, Interface))
     return _Entity
 
 
